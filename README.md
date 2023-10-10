@@ -19,7 +19,7 @@ Automatic Changelog generator using Jinja2 templates. From git logs to change lo
     - *Premise*: It's impossible to add your own types for parsing commits and to override the existing ones (e.g., for translating sections in the changelog).
     - *Solution in the fork*: Added the ability to configure your array of types through configuration files. When using customized types, there's the option to override which of the presented types will be a flag for updating the minor version.
 3. If you use an origin in the form `https://user:token@host.com`, your `user:token` data won't end up in the URL.
-4. Documentation and tests have been updated according to the changes made. More detailed usage examples can be seen in [docs/usage.md](https://github.com/sandzhaj/git-changelog/-/blob/main/docs/usage.md).
+4. Documentation and tests have been updated according to the changes made. More detailed usage examples can be seen in [docs/usage.md](https://github.com/sandzhaj/git-changelog/blob/main/docs/usage.md).
 
 ## Features
 
