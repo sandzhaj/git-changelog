@@ -8,6 +8,19 @@
 
 Automatic Changelog generator using Jinja2 templates. From git logs to change logs.
 
+## Differences of the Fork
+- Based on **[git-changelog](https://github.com/pawamoy/git-changelog):[2.3.0](https://github.com/pawamoy/git-changelog/releases/tag/2.3.0)**
+
+1. **Changed default behavior of the bump option and a new `--major-version-zero` parameter**
+    - *Premise*: When your current version is *0.x.x* and the new commits contain a flag for global changes, using `git-changelog --bump=auto` will result in a minor version update in the changelog instead of a major version. To transition from *0.x.x* to *1.0.0*, one has to manually use `git-changelog --bump 1.0.0`. In `git-changelog`, there's no option to adjust the behavior of auto bumping versions for *0.x.x* releases.
+    - *Solution in the fork*: By default, the major version is always updated in the presence of global changes, even if your release is *0.x.x*. A `--major-version-zero` parameter was added, following the example of the [commitizen](https://github.com/commitizen-tools/commitizen) tool, allowing to return to the original behavior.
+
+2. **Customization of agreement types**
+    - *Premise*: It's impossible to add your own types for parsing commits and to override the existing ones (e.g., for translating sections in the changelog).
+    - *Solution in the fork*: Added the ability to configure your array of types through configuration files. When using customized types, there's the option to override which of the presented types will be a flag for updating the minor version.
+3. If you use an origin in the form `https://user:token@host.com`, your `user:token` data won't end up in the URL.
+4. Documentation and tests have been updated according to the changes made. More detailed usage examples can be seen in [docs/usage.md](https://github.com/sandzhaj/git-changelog/-/blob/main/docs/usage.md).
+
 ## Features
 
 - [Jinja2][jinja2] templates!
