@@ -65,6 +65,7 @@ DEFAULT_SETTINGS = {
     "sections": None,
     "template": "keepachangelog",
     "version_regex": DEFAULT_VERSION_REGEX,
+    "major_version_zero": False,
     "rewrite_convention": None,
     "minor_types": None,
 }
@@ -155,7 +156,7 @@ def get_parser() -> argparse.ArgumentParser:
         dest="bump_latest",
         help="Deprecated, use --bump=auto instead. "
         "Guess the new latest version by bumping the previous one based on the set of unreleased commits. "
-        "For example, if a commit contains breaking changes, bump the major number (or the minor number for 0.x versions). "
+        "For example, if a commit contains breaking changes, bump the major number. "
         "Else if there are new features, bump the minor number. Else just bump the patch number. "
         "Default: unset (false).",
     )
@@ -167,7 +168,7 @@ def get_parser() -> argparse.ArgumentParser:
         metavar="VERSION",
         help="Specify the bump from latest version for the set of unreleased commits. "
         "Can be one of 'auto', 'major', 'minor', 'patch' or a valid semver version (eg. 1.2.3). "
-        "With 'auto', if a commit contains breaking changes, bump the major number (or the minor number for 0.x versions), "
+        "With 'auto', if a commit contains breaking changes, bump the major number, "
         "else if there are new features, bump the minor number, else just bump the patch number. "
         "Default: unset (false).",
     )
@@ -292,6 +293,14 @@ def get_parser() -> argparse.ArgumentParser:
         action="store_true",
         dest="omit_empty_versions",
         help="Omit empty versions from the output. Default: unset (false).",
+    )
+    parser.add_argument(
+        "--major-version-zero",
+        action="store_true",
+        dest="major_version_zero",
+        help="When true, breaking changes on a 0.x will remain as a 0.x version. "
+             "On false, a breaking change will bump a 0.x version to 1.0. major-version-zero. "
+             "Default: unset (false).",
     )
     parser.add_argument(
         "-v",
@@ -442,6 +451,7 @@ def build_and_render(
     omit_empty_versions: bool = False,  # noqa: FBT001,FBT002
     provider: str | None = None,
     bump: str | None = None,
+    major_version_zero: bool = False,  # noqa: FBT001,FBT002
     rewrite_convention: dict | None = None,
     minor_types: str | None = None,
 ) -> tuple[Changelog, str]:
@@ -466,6 +476,7 @@ def build_and_render(
         omit_empty_versions: Whether to omit empty versions from the output.
         provider: Provider class used by this repository.
         bump: Whether to try and bump to a given version.
+        major_version_zero: Keep major version at zero, even for breaking changes.
         rewrite_convention: A dictionary mapping type to section, intended to modify the default convention.TYPES.
             If provided, the 'sections' argument becomes mandatory.
         minor_types: Types signifying a minor version change. String separated by commas.
@@ -515,6 +526,7 @@ def build_and_render(
         parse_trailers=parse_trailers,
         sections=sections,
         bump=bump,
+        major_version_zero=major_version_zero,
         rewrite_convention=rewrite_convention,
         minor_types=minor_types,
     )
