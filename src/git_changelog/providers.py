@@ -70,7 +70,7 @@ class ProviderRefParser(ABC):
         """
         self.namespace: str = namespace
         self.project: str = project
-        self.url: str = url or self.url
+        self.url: str = self.clean_url(url or self.url)
 
     def get_refs(self, ref_type: str, text: str) -> list[Ref]:
         """Find all references in the given text.
@@ -113,6 +113,23 @@ class ProviderRefParser(ABC):
             The built URL.
         """
         return self.REF[ref_type].url_string.format(**match_dict)
+
+    @staticmethod
+    def clean_url(url: str) -> str:
+        """Clean the https URL from tokens.
+
+        Arguments:
+            url: The URL to clean.
+
+        Returns:
+            The cleaned URL.
+        """
+        if url.startswith(('http://', 'https://')):
+            protocol, remaining = url.split("://", 1)
+            parts = remaining.split("@")
+            if len(parts) > 1:
+                return f"{protocol}://{parts[-1]}"
+        return url
 
     @abstractmethod
     def get_tag_url(self, tag: str) -> str:
