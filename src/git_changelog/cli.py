@@ -33,7 +33,7 @@ from git_changelog.commit import (
     CommitConvention,
     ConventionalCommitConvention,
 )
-from git_changelog.providers import Bitbucket, GitHub, GitLab, ProviderRefParser
+from git_changelog.providers import Bitbucket, GitHub, GitLab, ProviderRefParser, Sfera
 
 DEFAULT_VERSION_REGEX = r"^## \[(?P<version>v?[^\]]+)"
 DEFAULT_MARKER_LINE = "<!-- insertion marker -->"
@@ -100,6 +100,7 @@ providers: dict[str, type[ProviderRefParser]] = {
     "github": GitHub,
     "gitlab": GitLab,
     "bitbucket": Bitbucket,
+    "sfera": Sfera,
 }
 
 
