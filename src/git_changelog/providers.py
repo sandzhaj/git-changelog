@@ -431,4 +431,4 @@ class Sfera(ProviderRefParser):
         return self.tag_url.format(base_url=self.url, namespace=self.namespace, project=self.project, ref=tag)
 
     def get_compare_url(self, base: str, target: str) -> str:  # noqa: D102 (use parent docstring)
-        return self.build_ref_url("commits_ranges", {"ref": f"&trev={target}&&srev={base}"})
+        return self.build_ref_url("commits_ranges", {"ref": f"&trev={base}&&srev={target}"})
