@@ -202,6 +202,8 @@ class Changelog:
             split = remote_url.split("/")
             provider_url = "/".join(split[:3])
             namespace, project = "/".join(split[3:-1]), split[-1]
+            if "sfera" in provider_url:
+                provider_url = provider_url.replace("git.", "")
             if callable(provider):
                 provider = provider(namespace, project, url=provider_url)
             elif "github" in provider_url:
@@ -210,6 +212,8 @@ class Changelog:
                 provider = GitLab(namespace, project, url=provider_url)
             elif "bitbucket" in provider_url:
                 provider = Bitbucket(namespace, project, url=provider_url)
+            elif "sfera" in provider_url:
+                provider = Sfera(namespace, project)
             else:
                 provider = None
             self.remote_url: str = remote_url
