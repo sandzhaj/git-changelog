@@ -203,7 +203,7 @@ class Changelog:
             provider_url = "/".join(split[:3])
             namespace, project = "/".join(split[3:-1]), split[-1]
             if "sfera" in provider_url:
-                provider_url = provider_url.replace("git.", "")
+                provider_url = provider_url.replace("git.", "").replace("ssh://git@", "https://").replace(":7999", "")
             if callable(provider):
                 provider = provider(namespace, project, url=provider_url)
             elif "github" in provider_url:
